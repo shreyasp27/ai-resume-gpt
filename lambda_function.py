@@ -10,7 +10,7 @@ from docx.shared import Pt
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from aws_lambda_powertools.utilities.data_classes import APIGatewayProxyEvent
 import boto3
-
+import os
 
 s3_client = boto3.client('s3')
 
