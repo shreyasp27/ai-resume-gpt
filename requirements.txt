@@ -1,2 +1,5 @@
 aws-lambda-powertools
-awscli
+boto3
+reportlab
+python-docx
+google-generativeai
