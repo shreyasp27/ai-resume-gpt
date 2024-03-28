@@ -4,7 +4,7 @@ from aws_lambda_powertools.utilities.data_classes import APIGatewayProxyEvent
 
 def lambda_handler(event: APIGatewayProxyEvent, context):
            
-    answer = "lambda is working"
+    answer = "lambda is working!"
 
     response = {
     "statusCode": 200,

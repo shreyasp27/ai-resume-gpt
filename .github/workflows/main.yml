@@ -25,4 +25,8 @@ jobs:
         cd ..
         zip -g deployment_package.zip lambda_function.py
 
+    - name: Deploy to AWS Lambda
+      run: |
+          aws lambda update-function-code --function-name ai-resume-gpt --zip-file fileb://deployment_package.zip
+
 
