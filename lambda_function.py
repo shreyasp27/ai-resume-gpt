@@ -3,7 +3,7 @@ import google.generativeai as genai
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
-import BytesIO
+from io import BytesIO
 from reportlab.lib.styles import ParagraphStyle
 from docx import Document
 from docx.shared import Pt
