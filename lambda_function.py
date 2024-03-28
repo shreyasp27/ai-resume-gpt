@@ -38,7 +38,7 @@ model = genai.GenerativeModel(
 
 # Configure API key
 google_api_key = os.environ.get('google_api_key')
-genai.configure(api_key='google_api_key')
+genai.configure(api_key = google_api_key)
 
 def update_resume(resume, job_description, about_me):
     prompt = f"Context:\n\nResume:\n{resume}\n\nJob Description:\n{job_description}\n\nAbout Me:\n{about_me}\n\n Update the resume based on the job description to make it more relevant and appealing for the role. Do not add anything else."
