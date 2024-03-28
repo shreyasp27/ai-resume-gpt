@@ -3,4 +3,3 @@ boto3
 reportlab
 python-docx
 google-generativeai
-BytesIO
