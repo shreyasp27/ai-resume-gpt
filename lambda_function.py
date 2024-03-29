@@ -11,6 +11,7 @@ from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 from aws_lambda_powertools.utilities.data_classes import APIGatewayProxyEvent
 import boto3
 import os
+from datetime import datetime
 
 s3_client = boto3.client('s3')
 
@@ -25,17 +26,18 @@ google_api_key = os.environ.get('google_api_key')
 genai.configure(api_key = google_api_key)
 
 resume_prompt = (
-    "Act as a professional resume writer. Following are your instructions:\n\n"
-    "- Focus on updating the Experience, Skills, and Project sections of the resume.\n"
-    "- Analyze the job description to identify key terms and skills.\n"
-    "- Incorporate these keywords into the Experience and Projects sections, ensuring they fit naturally and are relevant.\n"
-    "- The response should only include the updated resume text.\n"
-    "- Maintain the existing format of the resume. Do not alter the structure or style.\n"
-    "- Utilize only the information from the provided resume and 'about me' section for any updates.\n"
-    "- Do not add new content or information that isn’t already in the original resume or 'about me' section.\n"
-    "- Ensure the updated resume matches the job description keywords, enhancing its relevance for the role.\n\n"
-    "- Give the complete resume in the same format modified with the new Experience, Skills, and Project sections of the resume.\n"
-    "- Use - for bullet points instead of *. \n"
+    "Act as a professional resume writer. Following are your instructions:"
+    "- Focus on updating/paraphrasing the Experience, Skills, and Project sections of the resume."
+    "- Analyze the job description to identify key terms and skills."
+    "- Incorporate these keywords into the Experience and Projects sections, ensuring they fit naturally and are relevant."
+    "- Maintain the existing format of the resume. Do not alter the structure or style."
+    "- Utilize only the information from the provided resume and 'about me' section for any updates."
+    "- Do not add new content or information that isn’t already in the original resume or 'about me' section."
+    "- Ensure the updated resume matches the job description keywords, enhancing its relevance for the role."
+    "- Give the complete resume in the same format with the modified Experience, Skills, and Project sections of the resume."
+    "- Use - for bullet points instead of *."
+    "- Do not use bullet points for each skill."
+    "- Make sure thatthere is proper spacing in the position name - city and company name - date is in the line below the position."
     "Resume:\n{resume}\n\n"
     "Job Description:\n{job_description}\n\n"
     "About Me:\n{about_me}\n"
@@ -48,9 +50,9 @@ cover_letter_prompt = (
     "- Make sure the tone of the letter is professional and engaging.\n"
     "- The cover letter should complement the resume, not repeat its contents verbatim.\n"
     "- Focus on why the candidate is a good fit for the role and how they can contribute to the organization.\n"
-    "- Make sure to fill my name, address and date wherever necessary.\n\n"
-    "- Let there be only one line gap between paragraphs.\n\n"
-    "- The letter should not be overly lengthy; keep it brief but effective.\n\n"
+    "- Make sure to address the cover letter from my name and address wherever necessary.\n\n"
+    "- Let there be only one line gap between paragraphs.Do not have more than 3 paragraphs.\n\n"
+    "- The letter should not be overly lengthy; keep it brief (3/4th page) but effective.\n\n"
     "- The letter should be concise, clear, and well-organized.\n\n"
     "Resume:\n{resume}\n\n"
     "Job Description:\n{job_description}\n\n"
@@ -165,14 +167,14 @@ def lambda_handler(event: APIGatewayProxyEvent, context):
     pdf_buffer = generate_pdf_buffer(updated_resume_text)
     docx_buffer = generate_docx_buffer(cover_letter_text)
     
-    # Note: Adjust the bucket name to your S3 bucket name
+
     bucket_name = 'ai-resume-gpt'
-    resume_key = f'resumes/resume.pdf'
-    cover_letter_key = f'cover_letters/cover_letter.docx'
+    unique_id = datetime.now().strftime("%Y%m%d%H%M%S")
+    resume_key = f'resumes/resume_{unique_id}.pdf'
+    cover_letter_key = f'cover_letters/cover_letter_{unique_id}.docx'
     
-    # Upload the PDF resume
+    # Upload the PDF resume and cover letter
     resume_url = upload_to_s3(pdf_buffer, bucket_name, resume_key)
-    # Upload the DOCX cover letter
     cover_letter_url = upload_to_s3(docx_buffer, bucket_name, cover_letter_key)
     
     response = {
