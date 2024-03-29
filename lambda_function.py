@@ -16,11 +16,10 @@ s3_client = boto3.client('s3')
 
 # Set up the model
 generation_config = {
-    "temperature": 0.8,
+    "temperature": 0.2,
     "top_p": 1,
     "top_k": 1,
-    "max_output_tokens": 2048,
-}
+ }
 
 safety_settings = [
     {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_MEDIUM_AND_ABOVE"},
