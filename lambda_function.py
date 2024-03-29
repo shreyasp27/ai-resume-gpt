@@ -112,7 +112,7 @@ def upload_to_s3(buffer, bucket_name, s3_filename):
 
 def lambda_handler(event: APIGatewayProxyEvent, context):
     # Parse the event
-    body_str = json.loads(event.get('body', '{}'))
+    body_str = event.get('body', '{}')
     body = json.loads(body_str) 
     resume = body.get('resume', '')
     job_description = body.get('job_description', '')
