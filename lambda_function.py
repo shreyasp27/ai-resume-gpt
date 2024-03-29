@@ -54,7 +54,7 @@ def write_cover_letter(resume, job_description, about_me):
     return result
 
 def write_personalized_email(resume, job_description, about_me):
-    prompt = f"Context:\n\nResume:\n{resume}\n\nJob Description:\n{job_description}\n\nAbout Me:\n{about_me}\n\n Write a personalized email to the hiring manager introducing yourself and expressing your interest in the role."
+    prompt = f"Context:\n\nResume:\n{resume}\n\n\nJob Description:\n{job_description}\n\n\nAbout Me:\n{about_me}\n\n\n Write a personalized email to the hiring manager introducing yourself and expressing your interest in the 'job description' provided. Refer my 'Resume' and 'about me' attached to write the email."
     response = model.generate_content(prompt)
     result = response.text.strip()
     return result
