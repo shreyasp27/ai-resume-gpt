@@ -34,6 +34,8 @@ resume_prompt = (
     "- Utilize only the information from the provided resume and 'about me' section for any updates.\n"
     "- Do not add new content or information that isn’t already in the original resume or 'about me' section.\n"
     "- Ensure the updated resume matches the job description keywords, enhancing its relevance for the role.\n\n"
+    "- Give the complete resume in the same format modified with the new Experience, Skills, and Project sections of the resume.\n"
+    "- Use - for bullet points instead of *. \n"
     "Resume:\n{resume}\n\n"
     "Job Description:\n{job_description}\n\n"
     "About Me:\n{about_me}\n"
@@ -46,6 +48,9 @@ cover_letter_prompt = (
     "- Make sure the tone of the letter is professional and engaging.\n"
     "- The cover letter should complement the resume, not repeat its contents verbatim.\n"
     "- Focus on why the candidate is a good fit for the role and how they can contribute to the organization.\n"
+    "- Make sure to fill my name, address and date wherever necessary.\n\n"
+    "- Let there be only one line gap between paragraphs.\n\n"
+    "- The letter should not be overly lengthy; keep it brief but effective.\n\n"
     "- The letter should be concise, clear, and well-organized.\n\n"
     "Resume:\n{resume}\n\n"
     "Job Description:\n{job_description}\n\n"
@@ -53,7 +58,7 @@ cover_letter_prompt = (
 )
 
 email_prompt = (
-    "Compose a personalized email to the hiring manager. Here are your instructions:\n\n"
+    "Compose a personalized email to the HR. Here are your instructions:\n\n"
     "- The email should introduce the candidate and express interest in the role described in the job description.\n"
     "- Use information from the provided resume and about me section to craft a personalized and relevant introduction.\n"
     "- Ensure the email is concise and to the point, while remaining engaging and professional.\n"
