@@ -27,21 +27,30 @@ genai.configure(api_key = google_api_key)
 def update_resume(resume, job_description, about_me):
     prompt = f"Context:\n\nResume:\n{resume}\n\nJob Description:\n{job_description}\n\nAbout Me:\n{about_me}\n\n Update the resume based on the job description to make it more relevant and appealing for the role. Do not add anything else."
     response = model.generate_content(prompt)
-    result = response.text.strip()
-    return result
+    if response.generation:
+        
+        return response.generation[0].content.parts[0].text
+
+    return ""
 
 
 def write_cover_letter(resume, job_description, about_me):
     prompt = f"Context:\n\nResume:\n{resume}\n\nJob Description:\n{job_description}\n\nAbout Me:\n{about_me}\n\n Write a compelling cover letter for the job based on the provided information."
     response = model.generate_content(prompt)
-    result = response.text.strip()
-    return result
+    if response.generation:
+        # Get the first candidate's text directly
+        return response.generation[0].content.parts[0].text
+
+    return ""
 
 def write_personalized_email(resume, job_description, about_me):
     prompt = f"Context:\n\nResume:\n{resume}\n\n\nJob Description:\n{job_description}\n\n\nAbout Me:\n{about_me}\n\n\n Write a personalized email to the hiring manager introducing yourself and expressing your interest in the 'job description' provided. Refer my 'Resume' and 'about me' attached to write the email."
     response = model.generate_content(prompt)
-    result = response.text.strip()
-    return result
+    if response.generation:
+        # Get the first candidate's text directly
+        return response.generation[0].content.parts[0].text
+
+    return ""
 
 def generate_pdf_buffer(text):
     buffer = BytesIO()
