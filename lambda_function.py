@@ -1,7 +1,7 @@
 import json
 import google.generativeai as genai
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
 from reportlab.lib.styles import ParagraphStyle
@@ -105,19 +105,32 @@ def generate_pdf_buffer(text):
     buffer = BytesIO()
     styles = getSampleStyleSheet()
     
-    # Define a style for bold text
+    
     bold_style = ParagraphStyle(
         'Bold',
         parent=styles['Normal'],
         fontName='Helvetica-Bold',
         spaceAfter=6,
+        leading=20,  
     )
     
+    
+    body_style = styles['BodyText']
+    body_style.leading = 18  
+    
     elements = []
-    # Process each paragraph in the text
+    
     paragraphs = text.split("\n")
     for para in paragraphs:
-        elements.append(Paragraph(para, bold_style if '**' in para else styles["BodyText"]))
+        
+        if '**' in para:
+           
+            para = para.replace('**', '')
+            elements.append(Paragraph(para, bold_style))
+        else:
+            elements.append(Paragraph(para, body_style))
+        elements.append(Spacer(1, 12))  
+    
     # Build the PDF
     doc = SimpleDocTemplate(buffer, pagesize=letter)
     doc.build(elements)
