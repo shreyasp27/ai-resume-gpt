@@ -102,11 +102,11 @@ def lambda_handler(event: APIGatewayProxyEvent, context):
     job_description = body.get('job_description', '')
     about_me = body.get('about_me', '')
    
-    #updated_resume_text = update_resume(resume, job_description, about_me)
+    updated_resume_text = update_resume(resume, job_description, about_me)
     #cover_letter_text = write_cover_letter(resume, job_description, about_me)
     personalized_email = write_personalized_email(resume, job_description, about_me)  
     
-    #pdf_buffer = generate_pdf_buffer(updated_resume_text)
+    pdf_buffer = generate_pdf_buffer(updated_resume_text)
     #docx_buffer = generate_docx_buffer(cover_letter_text)
     
     # Note: Adjust the bucket name to your S3 bucket name
@@ -115,7 +115,7 @@ def lambda_handler(event: APIGatewayProxyEvent, context):
     cover_letter_key = f'cover_letter.docx'
     
     # Upload the PDF resume
-    #resume_url = upload_to_s3(pdf_buffer, bucket_name, resume_key)
+    resume_url = upload_to_s3(pdf_buffer, bucket_name, resume_key)
     # Upload the DOCX cover letter
     #cover_letter_url = upload_to_s3(docx_buffer, bucket_name, cover_letter_key)
     
@@ -125,7 +125,7 @@ def lambda_handler(event: APIGatewayProxyEvent, context):
             "Content-Type": "application/json"
         },
         "body": json.dumps({
-            #"resume_url": resume_url,
+            "resume_url": resume_url,
             #"cover_letter_url": cover_letter_url,
             "personalized_email": personalized_email
         })
